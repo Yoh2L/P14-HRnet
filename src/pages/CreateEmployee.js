@@ -7,6 +7,10 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import states from "../mocked/states";
 import departments from "../mocked/departments";
+import Modal from "../components/Modal";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../features/slice";
+import { formatDate } from "../utils/format";
 
 const CreateEmployee = () => {
 	const [firstName, setFirstName] = useState("");
@@ -18,16 +22,17 @@ const CreateEmployee = () => {
 	const [state, setState] = useState("");
 	const [zipCode, setZipCode] = useState("");
 	const [department, setDepartment] = useState("");
+	const [isModalVisible, setIsModalVisible] = useState(false);
 
-	const employees = JSON.parse(localStorage.getItem("employees")) || [];
+	const dispatch = useDispatch();
 
 	const handleSave = (e) => {
 		e.preventDefault();
 		const employee = {
 			firstName,
 			lastName,
-			dateBirth: dateBirth.toLocaleDateString("fr"),
-			startDate: dateBirth.toLocaleDateString("fr"),
+			dateBirth: formatDate(dateBirth),
+			startDate: formatDate(startDate),
 			street,
 			city,
 			state,
@@ -35,8 +40,12 @@ const CreateEmployee = () => {
 			department,
 		};
 
-		employees.push(employee);
-		localStorage.setItem("employees", JSON.stringify(employees));
+		dispatch(addEmployee(employee));
+		setIsModalVisible(true);
+	};
+
+	const handleClosing = (e) => {
+		setIsModalVisible(false);
 	};
 
 	return (
@@ -63,6 +72,7 @@ const CreateEmployee = () => {
 							dateFormat="dd/MM/yyyy"
 							selected={dateBirth}
 							onChange={(date) => setDateBirth(date)}
+							strictParsing
 						/>
 					</label>
 					<label>
@@ -114,6 +124,9 @@ const CreateEmployee = () => {
 					<input type="submit" onClick={handleSave} />
 				</div>
 			</form>
+			{isModalVisible && (
+				<Modal message={"Employee Created !"} onClose={handleClosing} />
+			)}
 		</div>
 	);
 };

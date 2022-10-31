@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { NavLink } from "react-router-dom";
 import MaterialReactTable from "material-react-table";
-import { logDOM } from "@testing-library/react";
+import { useSelector } from "react-redux";
 
 const EmployeeList = () => {
-	const employees = JSON.parse(localStorage.getItem("employees"));
+	const employees = useSelector((state) => state.employee.employees);
 
 	const columns = useMemo(
 		() => [
