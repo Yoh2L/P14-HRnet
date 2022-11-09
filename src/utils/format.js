@@ -1,1 +1,7 @@
-export const formatDate = (date) => new Date(date).toLocaleDateString("fr");
+export const formatDate = (date) => {
+	if (date) {
+		return new Date(date).toLocaleDateString("fr");
+	} else {
+		return "";
+	}
+};

@@ -7,10 +7,10 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import states from "../mocked/states";
 import departments from "../mocked/departments";
-import Modal from "../components/Modal";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../features/slice";
 import { formatDate } from "../utils/format";
+import { Modal } from "p14-modal-component-library";
 
 const CreateEmployee = () => {
 	const [firstName, setFirstName] = useState("");
@@ -72,7 +72,6 @@ const CreateEmployee = () => {
 							dateFormat="dd/MM/yyyy"
 							selected={dateBirth}
 							onChange={(date) => setDateBirth(date)}
-							strictParsing
 						/>
 					</label>
 					<label>
